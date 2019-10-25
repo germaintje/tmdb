@@ -113,9 +113,11 @@ function movieSelected(id) {
 //     return false;
 // }
 
+
 function getReviews() {
 
-    let movieId = sessionStorage.getItem('id');
+ let movieId = sessionStorage.getItem('id');
+
     axios.get(`https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=5ec279387e9aa9488ef4d00b22acc451&language=en-US&page=1`)
 
         .then((response) => {
@@ -124,55 +126,31 @@ function getReviews() {
             let reviews = response.data.results;
             console.log(reviews);
             let output = '';
-            /*let videospider_ticket = file_get_contents('https://videospider.in/getticket.php?key=DBUBFDLOJCRjoGBA&secret_key=nzgbf338ysoh17zbrida1f4xrvt74d&video_id=tt2316204&ip='.$_SERVER["REMOTE_ADDR"]);*/
+            var movie_id = `${movieId}`;
 
             $.each(reviews, (index, review) => {
                 <?php 
-                //$test = $_SERVER["REMOTE_ADDR"];
-                
-                    $videospider_ticket =file_get_contents('https://videospider.in/getticket.php?key=DBUBFDLOJCRjoGBA&secret_key=nzgbf338ysoh17zbrida1f4xrvt74d&video_id=557&ip=$_SERVER["REMOTE_ADDR"]');
-                ?>
+                $movie_id = "<script>document.write(movie_id)</script>";
+
+                    $videospider_ticket =file_get_contents('https://videospider.in/getticket.php?key=DBUBFDLOJCRjoGBA&secret_key=nzgbf338ysoh17zbrida1f4xrvt74d&video_id=' . $movie_id . '&ip=' . $_SERVER["REMOTE_ADDR"]);
+
+                   // $videospider =file_get_contents('https://videospider.in/getticket.php?key=DBUBFDLOJCRjoGBA&secret_key=nzgbf338ysoh17zbrida1f4xrvt74d&video_id=' . $_GET["id"]);
+
+
+                   
+                ?>    
 
                 output += `
                         <div class='row review'>
                             <div class=''>
-                            <?php 
-                            function get_client_ip() {
-                                $ipaddress = '';
-                                if (getenv('HTTP_CLIENT_IP'))
-                                    $ipaddress = getenv('HTTP_CLIENT_IP');
-                                else if(getenv('HTTP_X_FORWARDED_FOR'))
-                                    $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-                                else if(getenv('HTTP_X_FORWARDED'))
-                                    $ipaddress = getenv('HTTP_X_FORWARDED');
-                                else if(getenv('HTTP_FORWARDED_FOR'))
-                                    $ipaddress = getenv('HTTP_FORWARDED_FOR');
-                                else if(getenv('HTTP_FORWARDED'))
-                                   $ipaddress = getenv('HTTP_FORWARDED');
-                                else if(getenv('REMOTE_ADDR'))
-                                    $ipaddress = getenv('REMOTE_ADDR');
-                                else
-                                    $ipaddress = 'UNKNOWN';
-                                return $ipaddress;
-                            }
-                            
-                            echo 'User Real IP - '.get_Client_ip();
-                            
-                            ?>
                                 <iframe src="https://videospider.stream/getvideo?key=DBUBFDLOJCRjoGBA&video_id=${movieId}&tmdb=1&ticket=<?=$videospider_ticket;?>" width="600" height="400" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>
-                            </div>
-                            <div class='col-md-2 box-review1'>
-                                <img src='../image/default-user.png' alt='user' class='user-profile'>
-                            </div>
-                            <div class='col-md-10 box-review2'>
-                                <h5>Reviewed by ${review.author}</h5>
-                                <div class='content'>
-                                    <p style='color:silver;'>${review.content}</p>
-                                </div>
+
+                                    <?php echo "test"?>
                             </div>
                         </div>
                     </div>
                 `
+                
             });
             $('#reviews').html(output);
         })

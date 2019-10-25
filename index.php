@@ -10,5 +10,4 @@ else{
     header('location: user/index.php');
 }
 
-
 ?>
